@@ -15,9 +15,10 @@ var ctx = {
     shaderProgram: -1,
     vertexPositionId: -1,
     uColorId: -1,
+    vColorId: -1,
 };
 
-var rectangleObject = {buffer: -1};
+var rectangleObject = {buffer: -1, colorBuffer: -1};
 
 /**
  * Startup function to be called when the body is loaded
@@ -58,6 +59,11 @@ function setupBuffers() {
     var vertices = [0, 0, 0.5, 0, 0.5, 0.5, 0, 0.5];
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+    rectangleObject.colorBuffer = gl.createBuffer();
+    var verticesColor = [1, 1, 1, 0, 0, 0, 0.3, 0.4, 0.5, 0.3, 1, 0.1];
+    gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticesColor), gl.STATIC_DRAW);
 }
 
 
@@ -68,6 +74,7 @@ function setupAttributes() {
         "vertexPosition"
     );
     ctx.uColorId = gl.getUniformLocation(ctx.shaderProgram, "uColor");
+    ctx.vColorId = gl.getAttribLocation(ctx.shaderProgram, "vColor");
 }
 
 /**
@@ -81,7 +88,8 @@ function draw() {
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
     gl.vertexAttribPointer(ctx.vertexPositionId, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(ctx.vertexPositionId);
-    gl.enableVertexAttribArray(ctx.uColorId);
+    gl.vertexAttribPointer(ctx.vColorId, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(ctx.vColorId);
     gl.uniform4f(ctx.uColorId, 1.0, 1.0, 0.0, 1.0);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 }
