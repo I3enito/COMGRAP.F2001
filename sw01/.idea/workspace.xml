@@ -1,92 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c70e8fcd-98c9-45bd-97d7-a345137cb52a" name="Default" comment="" />
+    <list default="true" id="30bab89e-77ca-415d-af1d-5bbc4a5786fe" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="JsFlowSettings">
-    <service-enabled>false</service-enabled>
-    <exe-path />
-    <other-services-enabled>false</other-services-enabled>
-    <auto-save>true</auto-save>
-  </component>
-  <component name="ProjectId" id="1XvyhYRxc5nuQPTYOb4VmMDFmOr" />
+  <component name="ProjectId" id="1XvyYEj8zHO2EEUJcCZqhdSbkS0" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_interpreter_path" value="node" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-  </component>
-  <component name="RunManager" selected="JavaScript Debug.Exercise1.html">
-    <configuration default="true" type="BashConfigurationType" factoryName="Bash">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="INTERPRETER_PATH" value="/bin/bash" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <module name="" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
-      <method />
-    </configuration>
-    <configuration default="true" type="DartTestRunConfigurationType" factoryName="Dart Test">
-      <method />
-    </configuration>
-    <configuration name="Exercise1.html (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63343/webgl_start/Exercise1.html">
-      <method v="2" />
-    </configuration>
-    <configuration name="Exercise1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/webgl_start/Exercise1.html">
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="js.build_tools.gulp">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="JavaScript Debug.Exercise1.html" />
-      <item itemvalue="JavaScript Debug.Exercise1.html (1)" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JavaScript Debug.Exercise1.html" />
-        <item itemvalue="JavaScript Debug.Exercise1.html (1)" />
-      </list>
-    </recent_temporary>
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/webgl_start" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c70e8fcd-98c9-45bd-97d7-a345137cb52a" name="Default" comment="" />
-      <created>1505748136060</created>
+      <changelist id="30bab89e-77ca-415d-af1d-5bbc4a5786fe" name="Default Changelist" comment="" />
+      <created>1581940909184</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1505748136060</updated>
-      <workItem from="1505748137232" duration="908000" />
-      <workItem from="1520253487625" duration="1777000" />
-      <workItem from="1520608858917" duration="8000" />
-      <workItem from="1551341781649" duration="5561000" />
-      <workItem from="1581884939579" duration="138000" />
-      <workItem from="1581940983945" duration="840000" />
-      <workItem from="1581941832937" duration="80000" />
+      <updated>1581940909184</updated>
+      <workItem from="1581940910837" duration="72000" />
     </task>
     <servers />
   </component>
@@ -94,9 +37,9 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="279" y="58" key="SettingsEditor" timestamp="1581941891001">
+    <state x="549" y="170" key="FileChooserDialogImpl" timestamp="1581943379397">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="279" y="58" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1581941891001" />
+    <state x="549" y="170" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1581943379397" />
   </component>
 </project>
