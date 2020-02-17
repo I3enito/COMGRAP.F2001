@@ -79,5 +79,5 @@ function draw() {
   gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
   gl.vertexAttribPointer(ctx.vertexPositionId, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(ctx.vertexPositionId);
-  gl.drawArrays(gl.LINE_LOOP, 0, 4);
+  gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 }
