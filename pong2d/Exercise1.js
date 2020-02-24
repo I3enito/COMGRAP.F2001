@@ -18,6 +18,8 @@ var ctx = {
     aColorId: -1,
     aVertexTextureId: -1,
     uSamplerId: -1,
+    uProjectionMatId: -1,
+    uModelMatId: -1,
 };
 
 var rectangleObject = {buffer: -1, colorBuffer: -1, textureBuffer: -1};
@@ -86,7 +88,6 @@ function initGL() {
     setupAttributes();
     setupBuffers();
 
-
     // set the clear color here
     gl.clearColor(0, 0, 1, 1);
 
@@ -99,7 +100,7 @@ function initGL() {
 function setupBuffers() {
     "use strict";
     rectangleObject.buffer = gl.createBuffer();
-    var vertices = [0, 0, 0.5, 0, 0.5, 0.5, 0, 0.5];
+    var vertices = [0, 0, 100, 0, 100, 100, 0, 100];
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
@@ -126,6 +127,9 @@ function setupAttributes() {
     ctx.aColorId = gl.getAttribLocation(ctx.shaderProgram, "aColor");
     ctx.aVertexTextureId = gl.getAttribLocation(ctx.shaderProgram, "aVertexTextureCoord");
     ctx.uSamplerId = gl.getUniformLocation(ctx.shaderProgram, "uSampler");
+    ctx.uProjectionMatId = gl.getUniformLocation(ctx.shaderProgram, "uProjectionMath");
+    ctx.uModelMatId = gl.getUniformLocation(ctx.shaderProgram, "uModelMatrix");
+
 }
 
 /**
@@ -154,6 +158,14 @@ function draw() {
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, lennaTxt.textureObj);
     gl.uniform1i(ctx.uSamplerId, 0);
+
+    var projectionMat = mat3.create();
+    mat3.fromScaling(projectionMat, [2.0 / gl.drawingBufferWidth, 2.0 / gl.drawingBufferHeight]);
+    gl.uniformMatrix3fv(ctx.uProjectionMatId, false, projectionMat);
+
+    var modelMat = mat3.create();
+    mat3.fromRotation(modelMat, Math.PI);
+    gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
 
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 }
