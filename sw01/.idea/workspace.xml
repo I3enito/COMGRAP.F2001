@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="30bab89e-77ca-415d-af1d-5bbc4a5786fe" name="Default Changelist" comment="" />
+    <list default="true" id="30bab89e-77ca-415d-af1d-5bbc4a5786fe" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webgl_start/Exercise1.js" beforeDir="false" afterPath="$PROJECT_DIR$/webgl_start/Exercise1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webgl_start/FragmentShader.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/webgl_start/FragmentShader.glsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webgl_start/VertexShader.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/webgl_start/VertexShader.glsl" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1XvyYEj8zHO2EEUJcCZqhdSbkS0" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -17,7 +25,22 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/webgl_start" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RunManager" selected="JavaScript Debug.Exercise1.html">
+    <configuration name="Exercise1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/sw01/webgl_start/Exercise1.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="Exercise1.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/webgl_start/Exercise1.js" working-dir="$PROJECT_DIR$/webgl_start">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.Exercise1.html" />
+        <item itemvalue="Node.js.Exercise1.js" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -30,6 +53,9 @@
       <option name="presentableId" value="Default" />
       <updated>1581940909184</updated>
       <workItem from="1581940910837" duration="72000" />
+      <workItem from="1582534577674" duration="59000" />
+      <workItem from="1582534637477" duration="38000" />
+      <workItem from="1582534688700" duration="5429000" />
     </task>
     <servers />
   </component>
@@ -37,9 +63,37 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="549" y="170" key="FileChooserDialogImpl" timestamp="1581943379397">
+    <state x="223" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582534673745">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="170" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1581943379397" />
+    <state x="223" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1582534673745" />
+    <state x="527" y="255" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1582545605242">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="527" y="255" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.0.1536.824@0.0.1536.824" timestamp="1582545605242" />
+    <state x="549" y="170" key="FileChooserDialogImpl" timestamp="1582534635298">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="170" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1582534635298" />
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1582534738248">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582534738248" />
+    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1582534738248">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1582534738248" />
+    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1582534738248">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1582534738248" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1582534738248">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1582534738248" />
+    <state x="279" y="58" key="SettingsEditor" timestamp="1582545598485">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="279" y="58" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1582545598485" />
   </component>
 </project>
