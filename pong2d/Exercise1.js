@@ -22,7 +22,7 @@ var ctx = {
     uModelMatId: -1,
 };
 
-var rectangleObject = {buffer: -1, colorBuffer: -1, textureBuffer: -1};
+var rectangleObject = {buffer: -1};
 
 // keep texture parameters in an object so we can mix textures and objects
 var lennaTxt = {
@@ -100,19 +100,14 @@ function initGL() {
 function setupBuffers() {
     "use strict";
     rectangleObject.buffer = gl.createBuffer();
-    var vertices = [-50, -50, 50, -50, 50, 50, -50, 50];
+    var vertices =
+        //      position        color               textureCoordinates
+        [-50, -50, 1, 1, 1, 0, 0,
+            50, -50, 0, 0, 0, 1, 0,
+            50, 50, 0.3, 0.4, 0.5, 1, 1,
+            -50, 50, 0.3, 1, 0.1, 0, 1];
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-
-    rectangleObject.colorBuffer = gl.createBuffer();
-    var verticesColor = [1, 1, 1, 0, 0, 0, 0.3, 0.4, 0.5, 0.3, 1, 0.1];
-    gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.colorBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticesColor), gl.STATIC_DRAW);
-
-    rectangleObject.textureBuffer = gl.createBuffer();
-    var textureCoordinates = [0, 0, 1, 0, 1, 1, 0, 1];
-    gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.textureBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), gl.STATIC_DRAW);
 
 }
 
@@ -142,16 +137,15 @@ function draw() {
     // add drawing routines here
 
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
-    gl.vertexAttribPointer(ctx.vertexPositionId, 2, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(ctx.vertexPositionId, 2, gl.FLOAT, false, 28, 0);
     gl.enableVertexAttribArray(ctx.vertexPositionId);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.colorBuffer);
-    gl.vertexAttribPointer(ctx.aColorId, 3, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(ctx.aColorId, 3, gl.FLOAT, false, 28, 8);
     gl.enableVertexAttribArray(ctx.aColorId);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.textureBuffer);
-    gl.vertexAttribPointer(ctx.aVertexTextureId, 2, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(ctx.aVertexTextureId, 2, gl.FLOAT, false, 28, 20);
     gl.enableVertexAttribArray(ctx.aVertexTextureId);
+
     gl.uniform4f(ctx.uColorId, 1.0, 1.0, 0.0, 1.0);
 
 
