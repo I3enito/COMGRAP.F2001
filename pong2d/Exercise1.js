@@ -100,7 +100,7 @@ function initGL() {
 function setupBuffers() {
     "use strict";
     rectangleObject.buffer = gl.createBuffer();
-    var vertices = [0, 0, 100, 0, 100, 100, 0, 100];
+    var vertices = [-50, -50, 50, -50, 50, 50, -50, 50];
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
