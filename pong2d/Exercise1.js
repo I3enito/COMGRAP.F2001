@@ -89,7 +89,7 @@ function initGL() {
     setupBuffers();
 
     // set the clear color here
-    gl.clearColor(0, 0, 1, 1);
+    gl.clearColor(0, 0, 0, 0.7);
 
     // add more necessary commands here
 }
