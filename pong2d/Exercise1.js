@@ -101,11 +101,11 @@ function setupBuffers() {
     "use strict";
     rectangleObject.buffer = gl.createBuffer();
     var vertices =
-        //      position        color               textureCoordinates
-        [-50, -50, 1, 1, 1, 0, 0,
-            50, -50, 0, 0, 0, 1, 0,
-            50, 50, 0.3, 0.4, 0.5, 1, 1,
-            -50, 50, 0.3, 1, 0.1, 0, 1];
+        // position, color, textureCoordinates
+        [-0.5, -0.5, 1, 1, 1, 0, 0,
+            0.5, -0.5, 0, 0, 0, 1, 0,
+            0.5, 0.5, 0.3, 0.4, 0.5, 1, 1,
+            -0.5, 0.5, 0.3, 1, 0.1, 0, 1];
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
@@ -158,8 +158,32 @@ function draw() {
     gl.uniformMatrix3fv(ctx.uProjectionMatId, false, projectionMat);
 
     var modelMat = mat3.create();
-    mat3.fromRotation(modelMat, Math.PI);
+
+    // ball
+    mat3.fromScaling(modelMat, [20, 20]);
+    mat3.rotate(modelMat, modelMat, Math.PI);
     gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+
+    //paddle left
+    mat3.fromTranslation(modelMat, [-360, 0]);
+    mat3.scale(modelMat, modelMat, [20, 120]);
+    gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+
+    //paddle right
+    mat3.fromTranslation(modelMat, [360, 0]);
+    mat3.scale(modelMat, modelMat, [20, 120]);
+    gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+
+
+
 
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+
+
+
+
+
 }
