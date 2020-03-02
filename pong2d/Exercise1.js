@@ -40,7 +40,7 @@ let gameConfig = {
     },
     ball: {
         vector: {
-            x: 1,
+            x: 2,
             y: 0,
         }, position: {
             x: 0,
@@ -261,7 +261,14 @@ function drawAnimated(timeStamp) {
             (ballY + ballHalfHeight) >= (paddleRightY - paddleHalfHeight) ||
             (ballY - ballHalfHeight) <= (paddleRightY + paddleHalfHeight)
         )) {
-        gameConfig.ball.vector.x *= -1;
+        const collisionOffset = ballY - paddleRightY;
+        let vector = vec2.fromValues(-gameConfig.ball.vector.x, gameConfig.ball.vector.y);
+        const vectorCopy = vector;
+
+        vec2.rotate(vector, vectorCopy, [0, 0], -collisionOffset * (Math.PI / 180));
+        vec2.scale(vector, vector, 1.1);
+        gameConfig.ball.vector.x = vector[0];
+        gameConfig.ball.vector.y = vector[1];
     }
 
     //collision left paddle
@@ -270,7 +277,19 @@ function drawAnimated(timeStamp) {
             (ballY + ballHalfHeight) >= (paddleRightY - paddleHalfHeight) ||
             (ballY - ballHalfHeight) <= (paddleRightY + paddleHalfHeight)
         )) {
-        gameConfig.ball.vector.x *= -1;
+        const collisionOffset = ballY - paddleLeftY;
+        let vector = vec2.fromValues(-gameConfig.ball.vector.x, gameConfig.ball.vector.y);
+        const vectorCopy = vector;
+
+        vec2.rotate(vector, vectorCopy, [0, 0], collisionOffset * (Math.PI / 180));
+        vec2.scale(vector, vector, 1.1);
+        gameConfig.ball.vector.x = vector[0];
+        gameConfig.ball.vector.y = vector[1];
+    }
+
+    //collision top
+    if (((ballY + ballHalfHeight) >= gl.drawingBufferHeight / 2) || (ballY - ballHalfHeight) <= -1 * (gl.drawingBufferHeight / 2)) {
+        gameConfig.ball.vector.y *= -1;
     }
 
     draw();
