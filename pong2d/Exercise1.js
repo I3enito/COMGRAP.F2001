@@ -22,6 +22,24 @@ var ctx = {
     uModelMatId: -1,
 };
 
+let gameConfig = {
+    paddleConfig: {
+        paddleHeight: 120,
+    },
+    paddleLeft: {
+        y: 0,
+    },
+    paddleRight: {
+        y: 0,
+    },
+    keyMap: {
+        w: false,
+        s: false,
+        arrowUp: false,
+        arrowDown: false,
+    }
+}
+
 var rectangleObject = {buffer: -1};
 
 // keep texture parameters in an object so we can mix textures and objects
@@ -72,7 +90,7 @@ function startup() {
     gl = createGLContext(canvas);
     initGL();
     loadTexture();
-    draw();
+    window.requestAnimationFrame(drawAnimated);
 }
 
 /**
@@ -166,24 +184,82 @@ function draw() {
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 
     //paddle left
-    mat3.fromTranslation(modelMat, [-360, 0]);
-    mat3.scale(modelMat, modelMat, [20, 120]);
+    mat3.fromTranslation(modelMat, [-360, gameConfig.paddleLeft.y]);
+    mat3.scale(modelMat, modelMat, [20, gameConfig.paddleConfig.paddleHeight]);
     gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 
     //paddle right
-    mat3.fromTranslation(modelMat, [360, 0]);
-    mat3.scale(modelMat, modelMat, [20, 120]);
+    mat3.fromTranslation(modelMat, [360, gameConfig.paddleRight.y]);
+    mat3.scale(modelMat, modelMat, [20, gameConfig.paddleConfig.paddleHeight]);
     gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 
-
-
-
+    //line in the middle
+    mat3.fromScaling(modelMat, [5, 600]);
+    gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
-
-
-
-
-
 }
+
+function drawAnimated(timeStamp) {
+// calculate time since last call
+// move or change objects
+    const {w, s, arrowUp, arrowDown} = gameConfig.keyMap;
+    const {paddleLeft, paddleRight} = gameConfig;
+    const maxPaddleY = gl.drawingBufferHeight / 2 - gameConfig.paddleConfig.paddleHeight / 2;
+    if (w && paddleLeft.y < maxPaddleY) {
+        gameConfig.paddleLeft.y += 5;
+    }
+    if (s && paddleLeft.y > -maxPaddleY) {
+        gameConfig.paddleLeft.y -= 5;
+    }
+    if (arrowUp && paddleRight.y < maxPaddleY) {
+        gameConfig.paddleRight.y += 5;
+    }
+    if (arrowDown && paddleRight.y > -maxPaddleY) {
+        gameConfig.paddleRight.y -= 5;
+    }
+
+    draw();
+// request the next frame
+    window.requestAnimationFrame(drawAnimated);
+}
+
+document.addEventListener('keydown', () => {
+        console.log(event.key);
+        const key = event.key;
+        if (key === "w") {
+            gameConfig.keyMap.w = true;
+        }
+        if (key === "s") {
+            gameConfig.keyMap.s = true;
+        }
+        if (key === "ArrowUp") {
+            gameConfig.keyMap.arrowUp = true;
+        }
+        if (key === "ArrowDown") {
+            gameConfig.keyMap.arrowDown = true;
+        }
+
+    }
+);
+
+document.addEventListener('keyup', () => {
+        const key = event.key;
+        if (key === "w") {
+            gameConfig.keyMap.w = false;
+        }
+        if (key === "s") {
+            gameConfig.keyMap.s = false;
+        }
+        if (key === "ArrowUp") {
+            gameConfig.keyMap.arrowUp = false;
+        }
+        if (key === "ArrowDown") {
+            gameConfig.keyMap.arrowDown = false;
+        }
+    }
+);
+
+
+
