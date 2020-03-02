@@ -25,12 +25,27 @@ var ctx = {
 let gameConfig = {
     paddleConfig: {
         paddleHeight: 120,
+        paddleWidth: 20,
+        paddleX: 360,
+    },
+    ballConfig: {
+        ballHeight: 20,
+        ballWidth: 20,
     },
     paddleLeft: {
         y: 0,
     },
     paddleRight: {
         y: 0,
+    },
+    ball: {
+        vector: {
+            x: 1,
+            y: 0,
+        }, position: {
+            x: 0,
+            y: 0,
+        }
     },
     keyMap: {
         w: false,
@@ -178,20 +193,20 @@ function draw() {
     var modelMat = mat3.create();
 
     // ball
-    mat3.fromScaling(modelMat, [20, 20]);
-    mat3.rotate(modelMat, modelMat, Math.PI);
+    mat3.fromTranslation(modelMat, [gameConfig.ball.position.x, gameConfig.ball.position.y]);
+    mat3.scale(modelMat, modelMat, [gameConfig.ballConfig.ballWidth, gameConfig.ballConfig.ballHeight]);
     gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 
     //paddle left
-    mat3.fromTranslation(modelMat, [-360, gameConfig.paddleLeft.y]);
-    mat3.scale(modelMat, modelMat, [20, gameConfig.paddleConfig.paddleHeight]);
+    mat3.fromTranslation(modelMat, [-gameConfig.paddleConfig.paddleX, gameConfig.paddleLeft.y]);
+    mat3.scale(modelMat, modelMat, [gameConfig.paddleConfig.paddleWidth, gameConfig.paddleConfig.paddleHeight]);
     gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 
     //paddle right
-    mat3.fromTranslation(modelMat, [360, gameConfig.paddleRight.y]);
-    mat3.scale(modelMat, modelMat, [20, gameConfig.paddleConfig.paddleHeight]);
+    mat3.fromTranslation(modelMat, [gameConfig.paddleConfig.paddleX, gameConfig.paddleRight.y]);
+    mat3.scale(modelMat, modelMat, [gameConfig.paddleConfig.paddleWidth, gameConfig.paddleConfig.paddleHeight]);
     gl.uniformMatrix3fv(ctx.uModelMatId, false, modelMat);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 
@@ -204,9 +219,13 @@ function draw() {
 function drawAnimated(timeStamp) {
 // calculate time since last call
 // move or change objects
+
+    //destruct vars
     const {w, s, arrowUp, arrowDown} = gameConfig.keyMap;
     const {paddleLeft, paddleRight} = gameConfig;
     const maxPaddleY = gl.drawingBufferHeight / 2 - gameConfig.paddleConfig.paddleHeight / 2;
+
+    //handle paddles
     if (w && paddleLeft.y < maxPaddleY) {
         gameConfig.paddleLeft.y += 5;
     }
@@ -218,6 +237,40 @@ function drawAnimated(timeStamp) {
     }
     if (arrowDown && paddleRight.y > -maxPaddleY) {
         gameConfig.paddleRight.y -= 5;
+    }
+
+    //handle ball
+    gameConfig.ball.position.x += gameConfig.ball.vector.x;
+    gameConfig.ball.position.y += gameConfig.ball.vector.y;
+
+    //collision detection
+    const {x: ballX, y: ballY} = gameConfig.ball.position;
+    const ballHalfWidth = gameConfig.ballConfig.ballWidth / 2;
+    const ballHalfHeight = gameConfig.ballConfig.ballHeight / 2;
+
+    const {y: paddleRightY} = gameConfig.paddleRight;
+    const {y: paddleLeftY} = gameConfig.paddleLeft;
+    const paddleX = gameConfig.paddleConfig.paddleX;
+    const paddleHalfWidth = gameConfig.paddleConfig.paddleWidth / 2;
+    const paddleHalfHeight = gameConfig.paddleConfig.paddleHeight / 2;
+
+    //collision right paddle
+
+    if ((ballX + ballHalfWidth) >= (paddleX - paddleHalfWidth) &&
+        (
+            (ballY + ballHalfHeight) >= (paddleRightY - paddleHalfHeight) ||
+            (ballY - ballHalfHeight) <= (paddleRightY + paddleHalfHeight)
+        )) {
+        gameConfig.ball.vector.x *= -1;
+    }
+
+    //collision left paddle
+    if ((ballX - ballHalfWidth) <= (-paddleX + paddleHalfWidth) &&
+        (
+            (ballY + ballHalfHeight) >= (paddleRightY - paddleHalfHeight) ||
+            (ballY - ballHalfHeight) <= (paddleRightY + paddleHalfHeight)
+        )) {
+        gameConfig.ball.vector.x *= -1;
     }
 
     draw();
