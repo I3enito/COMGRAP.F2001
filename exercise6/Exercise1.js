@@ -6,6 +6,7 @@
 
 // the gl object is saved globally
 var gl;
+var globalAngle = 0;
 var solidCube, solidSphere;
 
 // Register function to call after document has loaded
@@ -39,7 +40,7 @@ function startup() {
         [1.0, 0.0, 1.0],
         [1.0, 0.5, 0.0],
         [0.0, 1.0, 0.7]);
-    // solidSphere = new SolidSphere(gl, 10, 20, [1, 0.5, 0.5, 1]);
+    solidSphere = new SolidSphere(gl, 10, 20, [1, 0.5, 0.5, 1]);;
     draw();
     window.requestAnimationFrame(drawAnimated);
 }
@@ -89,6 +90,10 @@ function draw() {
     // Set up the camera position | view * model = modelView
     var modelViewMat = mat4.create();
     mat4.lookAt(modelViewMat, [0, -9, 0], [0, 0, 0], [0, 0, 1]);
+    mat4.rotate(modelViewMat,  // destination matrix
+        modelViewMat,  // matrix to rotate
+        globalAngle,     // amount to rotate in radians
+        [0.2, 0.6, 1]);
 
 
     // Set up the projection of the object
@@ -102,12 +107,21 @@ function draw() {
 
     gl.uniformMatrix4fv(ctx.uModelMatId, false, modelViewMat);
     mat3.normalFromMat4(normalMatrix, modelViewMat);
+   /* gl.uniformMatrix3fv(ctx.uModelMatId, false, normalMatrix);*/
+    gl.uniformMatrix3fv(ctx.aVertexNormalId, false, normalMatrix);
 
     solidCube.draw(gl, ctx.aVertexPositionId, ctx.aVertexColorId, ctx.aVertexTextureCoordId, ctx.aVertexNormalId);
     //solidSphere.draw(gl, ctx.aVertexPositionId, ctx.aVertexColorId, ctx.aVertexTextureCoordId, ctx.aVertexNormalId);
 }
 
 function drawAnimated() {
+    if (globalAngle >= 2 * Math.PI) {
+        globalAngle = 0;
+    } else {
+        globalAngle += 0.03;
+    }
+
+    console.log(globalAngle);
     draw();
     window.requestAnimationFrame(drawAnimated);
 }

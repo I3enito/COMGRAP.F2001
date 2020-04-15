@@ -24,7 +24,7 @@ void main() {
         baseColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t)).rgb;
     }
 
-    if (uEnableLighting) {
+    if (!uEnableLighting) {
         // calculate light direction as seen from the vertex position
         vec3 lightDirectionEye = normalize(uLightPosition - vVertexPositionEye3);
         vec3 normal = normalize(vNormalEye);
