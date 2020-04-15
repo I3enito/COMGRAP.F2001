@@ -1,7 +1,9 @@
-attribute vec3 vertexPosition;
+attribute vec3 aVertexPosition;
+attribute vec3 aColor;
+uniform mat4 uProjectionMat;
+uniform mat4 uModelMat;
 
 
 void main(){
-    vec3 position = vertexPosition;
-    gl_Position= vec4(vertexPosition, 1);
+    gl_Position= uProjectionMat * uModelMat * vec4(aVertexPosition, 1);
 }

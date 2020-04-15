@@ -10,9 +10,14 @@ window.onload = startup;
 // the gl object is saved globally
 var gl;
 
+var globalAngle = 2;
 // we keep all local parameters for the program in a single object with the name ctx (for context)
 var ctx = {
+    shaderProgram: -1,
     aVertexPositionId: -1,
+    aColorId: -1,
+    uProjectionMatId: -1,
+    uModelMatId: -1
 
 };
 
@@ -28,7 +33,8 @@ function startup() {
     var canvas = document.getElementById("myCanvas");
     gl = createGLContext(canvas);
     initGL();
-    loadTexture();
+    this.wireFrameCube = new WireFrameCube(gl, [1.0, 1.0, 1.0, 0.5]);
+
     draw();
 }
 
@@ -79,10 +85,16 @@ function setupBuffers() {
 
 function setupAttributes() {
     // finds the index of the variable in the program
-    ctx.vertexPositionId = gl.getAttribLocation(
+    ctx.aVertexPositionId = gl.getAttribLocation(
         ctx.shaderProgram,
-        "vertexPosition"
+        "aVertexPosition"
     );
+    ctx.aColorId = gl.getAttribLocation(
+        ctx.shaderProgram,
+        "aColor"
+    );
+    ctx.uProjectionMatId = gl.getUniformLocation(ctx.shaderProgram, "uProjectionMat");
+    ctx.uModelMatId = gl.getUniformLocation(ctx.shaderProgram, "uModelMat");
 
 }
 
@@ -92,14 +104,33 @@ function setupAttributes() {
 function draw() {
     "use strict";
     console.log("Drawing");
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    /*gl.clear(gl.COLOR_BUFFER_BIT);*/
 
-    // add drawing routines here
-    gl. bindBuffer (gl. ARRAY_BUFFER , cubeObject3d.vertexBuffer );
-    gl. vertexAttribPointer ( ctx.aVertexPositionId , 3, gl.FLOAT , false , 0, 0);
-    gl. enableVertexAttribArray ( ctx.aVertexPositionId );
-    gl. bindBuffer (gl. ELEMENT_ARRAY_BUFFER , edgeBuffer );
-    gl. drawElements (gl.LINES , 6 /* Anzahl Indices */ ,gl. UNSIGNED_SHORT , 0);
+    // Set up the camera position | view * model = modelView
+    var modelViewMat = mat4.create();
+    mat4.lookAt(modelViewMat, [0, -3, 0], [0, 0, 0], [0, 0, 1]);
+    mat4.rotate(modelViewMat,  // destination matrix
+        modelViewMat,  // matrix to rotate
+        globalAngle,     // amount to rotate in radians
+        [0.2, 0.6, 1]);
+    gl.uniformMatrix4fv(ctx.uModelMatId, false, modelViewMat);
+
+
+    // Set up the projection of the object
+    var projectionMat = mat4.create();
+    //mat4.ortho(projectionMat, -1, 1, -1, 1, 0.1, 100);
+    mat4.perspective(projectionMat, 45 * Math.PI / 180, 800 / 600, 0.1, 100);
+    gl.uniformMatrix4fv(ctx.uProjectionMatId, false, projectionMat);
+
+    /*    gl.bindBuffer(gl.ARRAY_BUFFER, cubeObject3d.vertexBuffer);
+        gl.vertexAttribPointer(ctx.aVertexPositionId, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(ctx.aVertexPositionId);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeObject3d.edgeBuffer);
+        gl.drawElements(gl.LINES, 6 /!* Anzahl Indices *!/, gl.UNSIGNED_SHORT, 0);*/
+    /*    const vertexBuffer = wiredCube.bufferVertices();
+        const edgeBuffer = wiredCube.bufferEdges();*/
+
+    wireFrameCube.draw(gl, ctx.aVertexPositionId, ctx.aColorId)
 }
 
 
