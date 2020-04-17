@@ -74,12 +74,12 @@ function SolidCube(gl) {
 
     function defineColors(gl) {
 
-        var back = [249/255, 178/255, 148/255, 1];
+        var back = [33/255, 22/255, 44/255, 1];
         var front = [242/255, 114/255, 127/255,1];
-        var right = [183/255, 104/255, 128/255,1];
-        var left = [109/255, 92/255, 126/255,1];
-        var top = [50/255, 93/255, 127/255,1];
-        var bottom = [141/255, 224/255, 194/255,1];
+        var right = [183/255, 22/255, 128/255,1];
+        var left = [80/255, 12/255, 75/255,1];
+        var top = [50/255, 93/255, 45/255,1];
+        var bottom = [65/255, 65/255, 34/255,1];
 
         var allSides = back.concat(back,back,back, front,front,front,front, right,right,right,right, left,left,left,left, top,top,top,top, bottom,bottom,bottom,bottom)
 

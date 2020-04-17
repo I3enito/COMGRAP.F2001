@@ -34,8 +34,8 @@ var projectionMat;
 var normalMat;
 
 var rad = 0;
-var rotAxis = [0,1,0];
-var speed = 0;
+var rotAxis = [0,1,1];
+var speed = 1;
 
 /**
  * Startup function to be called when the body is loaded
@@ -75,7 +75,7 @@ function setUpModelMat() {
 
 function setUpViewMat() {
     viewMat = mat4.create();
-    mat4.lookAt(viewMat, [1,3,4], [0,0,0], [0,1,0]);
+    mat4.lookAt(viewMat, [1,3,6], [0,0,0], [0,1,0]);
     //mat4.lookAt(viewMat, [0, 0, -4], [0, 0, 0], [0, 1, 0]);
 }
 
@@ -127,17 +127,17 @@ function submitUniforms() {
     gl.uniformMatrix4fv(ctx.uProjectionMatId, false, projectionMat);
     gl.uniformMatrix3fv(ctx.uNormalMatId, false, normalMat);
 
-    gl.uniform3fv(ctx.uLightPositionId, [0,0,2]);
+    gl.uniform3fv(ctx.uLightPositionId, [0,0,10]);
     gl.uniform3fv(ctx.uLightColorId, [0.8, 1, 1]);
 }
 
 
 function handleMouseMove(event) {
 
-    var direction = vec3.create();
+/*    var direction = vec3.create();
     direction = vec3.subtract(direction, [event.pageY, event.pageX, 0], [395, 380, 0]);
     rotAxis = direction;
-    speed = 0.0005 * vec3.length(direction);
+    speed = 0.0005 * vec3.length(direction);*/
 }
 
 

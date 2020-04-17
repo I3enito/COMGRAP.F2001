@@ -7,11 +7,11 @@ uniform vec3 uLightPosition;
 uniform vec3 uLightColor;
 
 const float ambientFactor = 0.2;
-const float diffuseFactor = 0.5;
-float specularFactor = 0.8;
+const float diffuseFactor = 0.8;
+float specularFactor = 0.2;
 
-const float shininess = 15.0;
-const vec3 specularMaterialColor = vec3(0.4, 0.4, 0.4);
+const float shininess = 10.0;
+const vec3 specularMaterialColor = vec3(0.8, 0.4, 0.4);
 
 
 
