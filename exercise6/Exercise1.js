@@ -2,29 +2,40 @@
 // Computer Graphics
 //
 // WebGL Exercises
-
-
-// the gl object is saved globally
-var gl;
-var globalAngle = 0;
-var solidCube, solidSphere;
+//
 
 // Register function to call after document has loaded
 window.onload = startup;
+
+window.onmousemove = handleMouseMove;
+
+// the gl object is saved globally
+var gl;
 
 // we keep all local parameters for the program in a single object with the name ctx (for context)
 var ctx = {
     shaderProgram: -1,
     aVertexPositionId: -1,
     aVertexColorId: -1,
-    aVertexTextureCoordId: -1,
-    uProjectionMatId: -1,
-    uModelMatId: -1,
     aVertexNormalId: -1,
-    uEnableLightingId: -1,
+    uModelMatId: -1,
+    uViewMatId: -1,
+    uProjectionMatId: -1,
+    uNormalMatId: -1,
     uLightPositionId: -1,
-    uLightColorId: -1
+    uLightColorId: -1,
 };
+
+var solidCube;
+
+var modelMat;
+var viewMat;
+var projectionMat;
+var normalMat;
+
+var rad = 0;
+var rotAxis = [0,1,0];
+var speed = 0;
 
 /**
  * Startup function to be called when the body is loaded
@@ -34,14 +45,7 @@ function startup() {
     var canvas = document.getElementById("myCanvas");
     gl = createGLContext(canvas);
     initGL();
-    solidCube = new SolidCube(gl, [1.0, 0.5, 0.0],
-        [1.0, 0.0, 0.0],
-        [0.0, 0.0, 1.0],
-        [1.0, 0.0, 1.0],
-        [1.0, 0.5, 0.0],
-        [0.0, 1.0, 0.7]);
-    solidSphere = new SolidSphere(gl, 10, 20, [1, 0.5, 0.5, 1]);;
-    draw();
+
     window.requestAnimationFrame(drawAnimated);
 }
 
@@ -51,77 +55,102 @@ function startup() {
 function initGL() {
     "use strict";
     ctx.shaderProgram = loadAndCompileShaders(gl, 'VertexShader.glsl', 'FragmentShader.glsl');
-    setupAttributesAndUniforms();
-    gl.clearColor(0.1, 0.1, 0.2, 1);
-    gl.enable(gl.DEPTH_TEST);
+    setUpAttributesAndUniforms();
+
+    // set the clear color here
+    gl.clearColor(1.0,1.0,1.0,1);
+
+
+    solidCube = new SolidCube(gl);
+
+    setUpViewMat();
+    setUpProjectionMat();
+}
+
+function setUpModelMat() {
+    modelMat = mat4.create();
+    mat4.fromScaling(modelMat, [1,1,1]);
+    mat4.rotate(modelMat, modelMat, rad, rotAxis);
+}
+
+function setUpViewMat() {
+    viewMat = mat4.create();
+    mat4.lookAt(viewMat, [1,3,4], [0,0,0], [0,1,0]);
+    //mat4.lookAt(viewMat, [0, 0, -4], [0, 0, 0], [0, 1, 0]);
+}
+
+function setUpNormalMat() {
+
+    // calculate Model View Matrix
+    var modelViewMat = mat4.create();
+    mat4.multiply(modelViewMat, viewMat, modelMat);
+
+    normalMat = mat3.create();
+    mat3.normalFromMat4(normalMat, modelViewMat);
+}
+
+function setUpProjectionMat() {
+    projectionMat = mat4.create();
+    //mat4.ortho(projectionMat, -4, 4, -3,3,0.1, 10);
+
+    // mat4.perspective(
+    //     projectionMat,
+    //     glMatrix.toRadian(45), // fovy
+    //     gl.drawingBufferWidth / gl.drawingBufferHeight,
+    //     0.1,
+    //     1000);
+
+    mat4.frustum(projectionMat, -2, 2, -1.5,1.5,2, 10);
+
 }
 
 /**
  * Setup all the attribute and uniform variables
  */
-function setupAttributesAndUniforms() {
+function setUpAttributesAndUniforms(){
     "use strict";
     ctx.aVertexPositionId = gl.getAttribLocation(ctx.shaderProgram, "aVertexPosition");
     ctx.aVertexColorId = gl.getAttribLocation(ctx.shaderProgram, "aVertexColor");
     ctx.aVertexNormalId = gl.getAttribLocation(ctx.shaderProgram, "aVertexNormal");
-
-    ctx.aVertexTextureCoordId = gl.getAttribLocation(ctx.shaderProgram, "aVertexTextureCoord");
-
-    ctx.uProjectionMatId = gl.getUniformLocation(ctx.shaderProgram, "uProjectionMatrix");
-    ctx.uModelMatId = gl.getUniformLocation(ctx.shaderProgram, "uModelViewMatrix");
-    ctx.aVertexNormalId = gl.getUniformLocation(ctx.shaderProgram, "uNormalMatrix");
-    ctx.uWorldMatrixId = gl.getUniformLocation(ctx.shaderProgram, "uWorldMatrix");
-
-    ctx.uEnableLightingId = gl.getUniformLocation(ctx.shaderProgram, "uEnableLighting");
+    ctx.uModelMatId = gl.getUniformLocation(ctx.shaderProgram, "uModelMat");
+    ctx.uViewMatId = gl.getUniformLocation(ctx.shaderProgram, "uViewMat");
+    ctx.uProjectionMatId = gl.getUniformLocation(ctx.shaderProgram, "uProjectionMat");
+    ctx.uNormalMatId = gl.getUniformLocation(ctx.shaderProgram, "uNormalMat");
     ctx.uLightPositionId = gl.getUniformLocation(ctx.shaderProgram, "uLightPosition");
-    ctx.uLightColorId = gl.getUniformLocation(ctx.shaderProgram, "uLightColor");
-
+    ctx.uLightColorId = gl.getUniformLocation(ctx.shaderProgram, "uLightColor")
 
 }
+
+function submitUniforms() {
+    gl.uniformMatrix4fv(ctx.uModelMatId, false, modelMat);
+    gl.uniformMatrix4fv(ctx.uViewMatId, false, viewMat);
+    gl.uniformMatrix4fv(ctx.uProjectionMatId, false, projectionMat);
+    gl.uniformMatrix3fv(ctx.uNormalMatId, false, normalMat);
+
+    gl.uniform3fv(ctx.uLightPositionId, [0,0,2]);
+    gl.uniform3fv(ctx.uLightColorId, [0.8, 1, 1]);
+}
+
+
+function handleMouseMove(event) {
+
+    var direction = vec3.create();
+    direction = vec3.subtract(direction, [event.pageY, event.pageX, 0], [395, 380, 0]);
+    rotAxis = direction;
+    speed = 0.0005 * vec3.length(direction);
+}
+
 
 /**
  * Draw the scene.
  */
-function draw() {
-    "use strict";
+
+function drawAnimated(timestamp) {
     console.log("Drawing");
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-    // Set up the camera position | view * model = modelView
-    var modelViewMat = mat4.create();
-    mat4.lookAt(modelViewMat, [0, -9, 0], [0, 0, 0], [0, 0, 1]);
-    mat4.rotate(modelViewMat,  // destination matrix
-        modelViewMat,  // matrix to rotate
-        globalAngle,     // amount to rotate in radians
-        [0.2, 0.6, 1]);
-
-
-    // Set up the projection of the object
-    var projectionMat = mat4.create();
-    //mat4.ortho(projectionMat, -1, 1, -1, 1, 0.1, 100);
-    mat4.perspective(projectionMat, 45 * Math.PI / 180, 800 / 600, 0.1, 100);
-    gl.uniformMatrix4fv(ctx.uProjectionMatId, false, projectionMat);
-
-
-    var normalMatrix = mat3.create();
-
-    gl.uniformMatrix4fv(ctx.uModelMatId, false, modelViewMat);
-    mat3.normalFromMat4(normalMatrix, modelViewMat);
-   /* gl.uniformMatrix3fv(ctx.uModelMatId, false, normalMatrix);*/
-    gl.uniformMatrix3fv(ctx.aVertexNormalId, false, normalMatrix);
-
-    solidCube.draw(gl, ctx.aVertexPositionId, ctx.aVertexColorId, ctx.aVertexTextureCoordId, ctx.aVertexNormalId);
-    //solidSphere.draw(gl, ctx.aVertexPositionId, ctx.aVertexColorId, ctx.aVertexTextureCoordId, ctx.aVertexNormalId);
-}
-
-function drawAnimated() {
-    if (globalAngle >= 2 * Math.PI) {
-        globalAngle = 0;
-    } else {
-        globalAngle += 0.03;
-    }
-
-    console.log(globalAngle);
-    draw();
+    setUpModelMat();
+    setUpNormalMat();
+    submitUniforms();
+    solidCube.draw(gl, ctx.aVertexPositionId, ctx.aVertexColorId, ctx.aVertexNormalId);
+    rad = 0.001 * timestamp * speed;
     window.requestAnimationFrame(drawAnimated);
 }
