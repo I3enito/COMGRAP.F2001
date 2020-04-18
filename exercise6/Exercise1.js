@@ -7,8 +7,6 @@
 // Register function to call after document has loaded
 window.onload = startup;
 
-window.onmousemove = handleMouseMove;
-
 // the gl object is saved globally
 var gl;
 
@@ -76,7 +74,6 @@ function setUpModelMat() {
 function setUpViewMat() {
     viewMat = mat4.create();
     mat4.lookAt(viewMat, [1,3,6], [0,0,0], [0,1,0]);
-    //mat4.lookAt(viewMat, [0, 0, -4], [0, 0, 0], [0, 1, 0]);
 }
 
 function setUpNormalMat() {
@@ -91,15 +88,6 @@ function setUpNormalMat() {
 
 function setUpProjectionMat() {
     projectionMat = mat4.create();
-    //mat4.ortho(projectionMat, -4, 4, -3,3,0.1, 10);
-
-    // mat4.perspective(
-    //     projectionMat,
-    //     glMatrix.toRadian(45), // fovy
-    //     gl.drawingBufferWidth / gl.drawingBufferHeight,
-    //     0.1,
-    //     1000);
-
     mat4.frustum(projectionMat, -2, 2, -1.5,1.5,2, 10);
 
 }
@@ -130,16 +118,6 @@ function submitUniforms() {
     gl.uniform3fv(ctx.uLightPositionId, [0,0,10]);
     gl.uniform3fv(ctx.uLightColorId, [0.8, 1, 1]);
 }
-
-
-function handleMouseMove(event) {
-
-/*    var direction = vec3.create();
-    direction = vec3.subtract(direction, [event.pageY, event.pageX, 0], [395, 380, 0]);
-    rotAxis = direction;
-    speed = 0.0005 * vec3.length(direction);*/
-}
-
 
 /**
  * Draw the scene.
