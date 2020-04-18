@@ -56,7 +56,7 @@ function initGL() {
     setUpAttributesAndUniforms();
 
     // set the clear color here
-    gl.clearColor(1.0,1.0,1.0,1);
+    gl.clearColor(0.8,0.6,0.7,1);
 
 
     solidCube = new SolidCube(gl);
